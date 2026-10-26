@@ -39,7 +39,7 @@ jobs:
           git -C zmk apply --check "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
           git -C zmk apply "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
           git -C zmk diff --check
-          west manifest --freeze > dependency-revisions.yml
+          west manifest --freeze --active-only > dependency-revisions.yml
           git -C zmk diff > applied-zmk.patch
 
       - name: Build the right half with the existing keymap
