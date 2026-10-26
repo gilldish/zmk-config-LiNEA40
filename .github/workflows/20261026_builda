@@ -1,0 +1,72 @@
+name: LiNEA40 keypress reconnect TEST
+run-name: Keypress reconnect TEST at ${{ github.sha }}
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-right:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - name: Check out the selected configuration revision
+        uses: actions/checkout@v4
+
+      - name: Create an isolated build workspace
+        shell: bash
+        run: |
+          workspace=$(mktemp -d)
+          echo "TEST_WORKSPACE=$workspace" >> "$GITHUB_ENV"
+          mkdir -p "$workspace/config"
+          cp -a "$GITHUB_WORKSPACE/config/." "$workspace/config/"
+          west init -l "$workspace/config"
+
+      - name: Fetch the original dependencies
+        working-directory: ${{ env.TEST_WORKSPACE }}
+        run: west update
+
+      - name: Verify the ZMK base and apply the diagnostic patch
+        working-directory: ${{ env.TEST_WORKSPACE }}
+        shell: bash
+        run: |
+          expected=241ff39556b3685c9344c4c22fd9a655af8eb3ba
+          actual=$(git -C zmk rev-parse HEAD)
+          test "$actual" = "$expected"
+          git -C zmk apply --check "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
+          git -C zmk apply "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
+          git -C zmk diff --check
+          west manifest --freeze > dependency-revisions.yml
+          git -C zmk diff > applied-zmk.patch
+
+      - name: Build the right half with the existing keymap
+        working-directory: ${{ env.TEST_WORKSPACE }}
+        shell: bash
+        run: |
+          west zephyr-export
+          west build -s zmk/app -d build-right -b seeeduino_xiao_ble \
+            -S studio-rpc-usb-uart -- \
+            -DZMK_CONFIG="$TEST_WORKSPACE/config" \
+            -DSHIELD="LiNEA40_right rgbled_adapter" \
+            -DCONFIG_ZMK_STUDIO=y
+
+      - name: Package only the diagnostic right-half firmware
+        working-directory: ${{ env.TEST_WORKSPACE }}
+        shell: bash
+        run: |
+          mkdir -p test-artifacts
+          cp build-right/zephyr/zmk.uf2 test-artifacts/20261026_LiNEA40_right_KEYPRESS_TEST.uf2
+          cp dependency-revisions.yml applied-zmk.patch test-artifacts/
+          cp build-right/zephyr/.config test-artifacts/build-config.txt
+          printf '%s\n' "Config revision: $GITHUB_SHA" "ZMK base: 241ff39556b3685c9344c4c22fd9a655af8eb3ba" > test-artifacts/build-revision.txt
+          sha256sum test-artifacts/*.uf2 > test-artifacts/SHA256SUMS.txt
+
+      - name: Upload the diagnostic firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: LiNEA40-right-KEYPRESS-TEST
+          path: ${{ env.TEST_WORKSPACE }}/test-artifacts/
+          if-no-files-found: error
