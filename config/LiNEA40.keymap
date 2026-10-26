@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 3>;
     };
@@ -128,9 +128,9 @@
             tap-ms = <20>;
         };
 
-        alt_p_tab: alt_p_tab {
+        D_alt_p_tab: D_alt_p_tab {
             compatible = "zmk,behavior-mod-morph";
-            label = "ALT_P_TAB";
+            label = "D_ALT_P_TAB";
             bindings = <&win_p_tab>, <&kp TAB>;
 
             #binding-cells = <0>;
@@ -146,6 +146,56 @@
             #binding-cells = <0>;
             mods = <(MOD_RGUI|MOD_LGUI)>;
             keep-mods = <(MOD_LGUI|MOD_RGUI)>;
+        };
+
+        K_ctrl_v: K_ctrl_v {
+            compatible = "zmk,behavior-mod-morph";
+            label = "K_CTRL_V";
+            bindings = <&kp K>, <&kp LC(V)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
+
+        M_ctrl_x: M_ctrl_x {
+            compatible = "zmk,behavior-mod-morph";
+            label = "M_CTRL_X";
+            bindings = <&kp M>, <&kp LC(X)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
+
+        R_ctrl_z: R_ctrl_z {
+            compatible = "zmk,behavior-mod-morph";
+            label = "R_CTRL_Z";
+            bindings = <&kp R>, <&kp LC(Z)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
+
+        S_ctrl_a: S_ctrl_a {
+            compatible = "zmk,behavior-mod-morph";
+            label = "S_CTRL_A";
+            bindings = <&kp S>, <&kp LC(A)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
+
+        N_ctrl_s: N_ctrl_s {
+            compatible = "zmk,behavior-mod-morph";
+            label = "N_CTRL_S";
+            bindings = <&kp N>, <&kp LC(S)>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
         };
     };
 
@@ -170,9 +220,9 @@
 
         default_layer {
             bindings = <
-&alt_p_tab        &kp Z         &kp H         &kp F  &kp LEFT                               &kp RIGHT    &kp Q      &kp O          &kp W    &kp X
-&kp D             &kp S         &kp N         &kp T  &kp G                                  &kp L        &kp A      &kp I          &kp U    &kp E
-&mt LEFT_SHIFT B  &kp R         &kp M         &kp C  &kp K                                  &kp Y        &kp COMMA  &kp J          &kp DOT  &mt RIGHT_SHIFT V
+&D_alt_p_tab      &kp Z         &kp H         &kp F  &kp LEFT                               &kp RIGHT    &kp Q      &kp O          &kp W    &kp X
+&kp D             &S_ctrl_a     &N_ctrl_s     &kp T  &kp G                                  &kp L        &kp A      &kp I          &kp U    &kp E
+&mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C  &K_ctrl_v                              &kp Y        &kp COMMA  &kp J          &kp DOT  &mt RIGHT_SHIFT V
 &kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none  &lt 7 TAB  &lt 5 SPACE    &lt 4 SPACE  &lt 2 ENTER             &kp RIGHT_ALT  &kp F18  &lt 6 ESC
             >;
 
