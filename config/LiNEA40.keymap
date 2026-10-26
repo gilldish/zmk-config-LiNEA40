@@ -122,10 +122,6 @@
             key-positions = <0 1>;
         };
 
-        test {
-            bindings = <&kp A>;
-            key-positions = <15 16 17 18 7 8>;
-        };
     };
 
     behaviors {
