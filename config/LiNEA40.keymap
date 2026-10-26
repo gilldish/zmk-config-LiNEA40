@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,
+            //スクロール方向を逆転,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 3>;
     };
@@ -127,6 +127,16 @@
 
             tap-ms = <20>;
         };
+
+        alt_p_tab: alt_p_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "ALT_P_TAB";
+            bindings = <&kp P>, <&kp TAB>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LALT|MOD_RALT)>;
+            keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
     };
 
     macros {
@@ -150,7 +160,7 @@
 
         default_layer {
             bindings = <
-&kp P             &kp Z         &kp H         &kp F  &kp LEFT                               &kp RIGHT    &kp Q      &kp O          &kp W    &kp X
+&alt_p_tab        &kp Z         &kp H         &kp F  &kp LEFT                               &kp RIGHT    &kp Q      &kp O          &kp W    &kp X
 &kp D             &kp S         &kp N         &kp T  &kp G                                  &kp L        &kp A      &kp I          &kp U    &kp E
 &mt LEFT_SHIFT B  &kp R         &kp M         &kp C  &kp K                                  &kp Y        &kp COMMA  &kp J          &kp DOT  &mt RIGHT_SHIFT V
 &kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none  &lt 7 TAB  &lt 5 SPACE    &lt 4 SPACE  &lt 2 ENTER             &kp RIGHT_ALT  &kp F18  &lt 6 ESC
@@ -174,10 +184,10 @@
 
         MARK {
             bindings = <
-&kp EXCLAMATION             &kp AT           &kp HASH         &kp DOLLAR     &kp PERCENT                      &kp CARET     &kp AMPERSAND  &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LBKT
-&kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp SEMICOLON  &kp SEMICOLON                    &kp C_MUTE    &kp LS(LBKT)   &kp RIGHT_BRACKET      &kp BACKSLASH         &kp EQUAL
-&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp APOS       &kp SQT                          &kp KP_EQUAL  &kp INT3       &kp LS(RIGHT_BRACKET)  &kp LS(BACKSLASH)     &kp LS(INT1)
-&trans                      &trans           &trans           &trans         &trans         &trans    &trans  &trans                       &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LS(QUESTION)
+&kp EXCLAMATION             &kp AT           &kp HASH         &kp DOLLAR     &kp PERCENT                      &kp CARET      &kp AMPERSAND  &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LBKT
+&kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp SEMICOLON  &kp SEMICOLON                    &kp C_MUTE     &kp LS(LBKT)   &kp RIGHT_BRACKET      &kp BACKSLASH         &kp EQUAL
+&mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp APOS       &kp SQT                          &kp KP_EQUAL   &kp INT3       &kp LS(RIGHT_BRACKET)  &kp LS(BACKSLASH)     &kp LS(INT1)
+&trans                      &trans           &trans           &trans         &trans         &trans    &trans  &kp LC(ENTER)                 &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LS(QUESTION)
             >;
 
             sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
