@@ -1,7 +1,10 @@
-name: LiNEA40 keypress reconnect TEST
-run-name: Keypress reconnect TEST at ${{ github.sha }}
+name: LiNEA40 keypress reconnect AUTO
+run-name: Keypress reconnect AUTO at ${{ github.sha }}
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
