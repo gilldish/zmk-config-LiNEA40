@@ -1,0 +1,108 @@
+diff --git a/app/src/ble.c b/app/src/ble.c
+index 7176bd0..590f486 100644
+--- a/app/src/ble.c
++++ b/app/src/ble.c
+@@ -14,6 +14,7 @@
+ 
+ #include <zephyr/settings/settings.h>
+ #include <zephyr/sys/ring_buffer.h>
++#include <zephyr/sys/atomic.h>
+ #include <zephyr/bluetooth/bluetooth.h>
+ #include <zephyr/bluetooth/conn.h>
+ #include <zephyr/bluetooth/hci.h>
+@@ -36,6 +37,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+ #include <zmk/split/bluetooth/uuid.h>
+ #include <zmk/event_manager.h>
+ #include <zmk/events/ble_active_profile_changed.h>
++#include <zmk/events/position_state_changed.h>
+ 
+ #if IS_ENABLED(CONFIG_ZMK_BLE_PASSKEY_ENTRY)
+ #include <zmk/events/keycode_state_changed.h>
+@@ -63,6 +65,10 @@ enum advertising_type {
+ static struct zmk_ble_profile profiles[ZMK_BLE_PROFILE_COUNT];
+ static uint8_t active_profile;
+ 
++/* Diagnostic build: a bonded active host reconnects only after a new key press. */
++static atomic_t keypress_reconnect_waiting;
++static int64_t keypress_reconnect_since;
++
+ #define DEVICE_NAME CONFIG_BT_DEVICE_NAME
+ #define DEVICE_NAME_LEN (sizeof(DEVICE_NAME) - 1)
+ 
+@@ -105,6 +111,9 @@ void set_profile_address(uint8_t index, const bt_addr_le_t *addr) {
+ 
+     bt_addr_le_to_str(addr, addr_str, sizeof(addr_str));
+ 
++    if (index == active_profile) {
++        atomic_clear(&keypress_reconnect_waiting);
++    }
+     memcpy(&profiles[index].peer, addr, sizeof(bt_addr_le_t));
+     sprintf(setting_name, "ble/profiles/%d", index);
+     LOG_DBG("Setting profile addr for %s to %s", setting_name, addr_str);
+@@ -181,6 +190,9 @@ int update_advertising(void) {
+         // LOG_DBG("Directed advertising to %s", addr_str);
+         // desired_adv = ZMK_ADV_DIR;
+     }
++    if (!zmk_ble_active_profile_is_open() && atomic_get(&keypress_reconnect_waiting)) {
++        desired_adv = ZMK_ADV_NONE;
++    }
+     LOG_DBG("advertising from %d to %d", advertising_status, desired_adv);
+ 
+     switch (desired_adv + CURR_ADV(advertising_status)) {
+@@ -212,6 +224,24 @@ static void update_advertising_callback(struct k_work *work) { update_advertisin
+ 
+ K_WORK_DEFINE(update_advertising_work, update_advertising_callback);
+ 
++static int keypress_reconnect_listener(const zmk_event_t *eh) {
++    const struct zmk_position_state_changed *ev = as_zmk_position_state_changed(eh);
++
++    /* Ignore releases and key events queued before the host disconnected. */
++    if (ev != NULL && ev->state && atomic_get(&keypress_reconnect_waiting) &&
++        ev->timestamp >= keypress_reconnect_since &&
++        atomic_cas(&keypress_reconnect_waiting, 1, 0)) {
++        LOG_INF("Keypress reconnect test: restarting host advertising");
++        k_work_submit(&update_advertising_work);
++    }
++
++    /* Preserve keymap processing, including the bootloader behavior. */
++    return ZMK_EV_EVENT_BUBBLE;
++}
++
++ZMK_LISTENER(keypress_reconnect_test, keypress_reconnect_listener);
++ZMK_SUBSCRIPTION(keypress_reconnect_test, zmk_position_state_changed);
++
+ static void clear_profile_bond(uint8_t profile) {
+     if (bt_addr_le_cmp(&profiles[profile].peer, BT_ADDR_LE_ANY)) {
+         bt_unpair(BT_ID_DEFAULT, &profiles[profile].peer);
+@@ -272,7 +302,10 @@ int zmk_ble_prof_select(uint8_t index) {
+     }
+ 
+     LOG_DBG("profile %d", index);
++    /* Explicit profile selection remains a manual reconnect/repair path. */
++    atomic_clear(&keypress_reconnect_waiting);
+     if (active_profile == index) {
++        k_work_submit(&update_advertising_work);
+         return 0;
+     }
+ 
+@@ -505,6 +538,7 @@ static void connected(struct bt_conn *conn, uint8_t err) {
+     update_advertising();
+ 
+     if (is_conn_active_profile(conn)) {
++        atomic_clear(&keypress_reconnect_waiting);
+         LOG_DBG("Active profile connected");
+         k_work_submit(&raise_profile_changed_event_work);
+     }
+@@ -525,6 +559,12 @@ static void disconnected(struct bt_conn *conn, uint8_t reason) {
+         return;
+     }
+ 
++    if (is_conn_active_profile(conn)) {
++        keypress_reconnect_since = k_uptime_get();
++        atomic_set(&keypress_reconnect_waiting, 1);
++        LOG_INF("Keypress reconnect test: waiting for a key after host disconnect");
++    }
++
+     // We need to do this in a work callback, otherwise the advertising update will still see the
+     // connection for a profile as active, and not start advertising yet.
+     k_work_submit(&update_advertising_work);
