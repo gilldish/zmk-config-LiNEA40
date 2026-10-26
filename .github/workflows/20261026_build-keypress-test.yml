@@ -10,8 +10,12 @@ on:
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
-  build-right:
+  build-firmware:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
@@ -20,56 +24,77 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Create an isolated build workspace
-        shell: bash
         run: |
           workspace=$(mktemp -d)
-          echo "TEST_WORKSPACE=$workspace" >> "$GITHUB_ENV"
+          echo "BUILD_WORKSPACE=$workspace" >> "$GITHUB_ENV"
           mkdir -p "$workspace/config"
           cp -a "$GITHUB_WORKSPACE/config/." "$workspace/config/"
           west init -l "$workspace/config"
 
-      - name: Fetch the original dependencies
-        working-directory: ${{ env.TEST_WORKSPACE }}
-        run: west update
-
-      - name: Verify the ZMK base and apply the diagnostic patch
-        working-directory: ${{ env.TEST_WORKSPACE }}
-        shell: bash
+      - name: Fetch and verify the original dependencies
+        working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
+          west update
           expected=241ff39556b3685c9344c4c22fd9a655af8eb3ba
           actual=$(git -C zmk rev-parse HEAD)
           test "$actual" = "$expected"
+          west manifest --freeze --active-only > dependency-revisions.yml
+          west zephyr-export
+
+      # Build these two images before applying the Bluetooth patch.
+      - name: Build the original left-half firmware
+        working-directory: ${{ env.BUILD_WORKSPACE }}
+        run: |
+          west build -s zmk/app -d build-left -b seeeduino_xiao_ble -- \
+            -DZMK_CONFIG="$BUILD_WORKSPACE/config" \
+            -DSHIELD="LiNEA40_left rgbled_adapter"
+
+      - name: Build the original settings-reset firmware
+        working-directory: ${{ env.BUILD_WORKSPACE }}
+        run: |
+          west build -s zmk/app -d build-reset -b seeeduino_xiao_ble -- \
+            -DZMK_CONFIG="$BUILD_WORKSPACE/config" \
+            -DSHIELD=settings_reset
+
+      - name: Apply the keypress reconnect patch for the right half
+        working-directory: ${{ env.BUILD_WORKSPACE }}
+        run: |
           git -C zmk apply --check "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
           git -C zmk apply "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
           git -C zmk diff --check
-          west manifest --freeze --active-only > dependency-revisions.yml
           git -C zmk diff > applied-zmk.patch
 
-      - name: Build the right half with the existing keymap
-        working-directory: ${{ env.TEST_WORKSPACE }}
-        shell: bash
+      - name: Build the patched right-half firmware with the existing keymap
+        working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
-          west zephyr-export
           west build -s zmk/app -d build-right -b seeeduino_xiao_ble \
             -S studio-rpc-usb-uart -- \
-            -DZMK_CONFIG="$TEST_WORKSPACE/config" \
+            -DZMK_CONFIG="$BUILD_WORKSPACE/config" \
             -DSHIELD="LiNEA40_right rgbled_adapter" \
             -DCONFIG_ZMK_STUDIO=y
 
-      - name: Package only the diagnostic right-half firmware
-        working-directory: ${{ env.TEST_WORKSPACE }}
-        shell: bash
+      - name: Package all three firmware files with their original names
+        working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
-          mkdir -p test-artifacts
-          cp build-right/zephyr/zmk.uf2 test-artifacts/20261026_LiNEA40_right_KEYPRESS_TEST.uf2
-          cp dependency-revisions.yml applied-zmk.patch test-artifacts/
-          cp build-right/zephyr/.config test-artifacts/build-config.txt
-          printf '%s\n' "Config revision: $GITHUB_SHA" "ZMK base: 241ff39556b3685c9344c4c22fd9a655af8eb3ba" > test-artifacts/build-revision.txt
-          sha256sum test-artifacts/*.uf2 > test-artifacts/SHA256SUMS.txt
+          mkdir -p firmware/build-info
+          cp build-left/zephyr/zmk.uf2 "firmware/LiNEA40_left rgbled_adapter-seeeduino_xiao_ble-zmk.uf2"
+          cp build-right/zephyr/zmk.uf2 "firmware/LiNEA40_right rgbled_adapter-seeeduino_xiao_ble-zmk.uf2"
+          cp build-reset/zephyr/zmk.uf2 firmware/settings_reset-seeeduino_xiao_ble-zmk.uf2
+          cp dependency-revisions.yml applied-zmk.patch firmware/build-info/
+          cp build-left/zephyr/.config firmware/build-info/build-config-left.txt
+          cp build-right/zephyr/.config firmware/build-info/build-config-right.txt
+          cp build-reset/zephyr/.config firmware/build-info/build-config-reset.txt
+          printf '%s\n' \
+            "Config revision: $GITHUB_SHA" \
+            "ZMK base: 241ff39556b3685c9344c4c22fd9a655af8eb3ba" \
+            "Right: keypress reconnect patch applied" \
+            "Left and settings reset: built before applying the patch" \
+            > firmware/build-info/build-revision.txt
+          (cd firmware && sha256sum -- *.uf2 > build-info/SHA256SUMS.txt)
 
-      - name: Upload the diagnostic firmware
+      - name: Upload all three firmware files
         uses: actions/upload-artifact@v4
         with:
-          name: LiNEA40-right-KEYPRESS-TEST
-          path: ${{ env.TEST_WORKSPACE }}/test-artifacts/
+          name: firmware
+          path: ${{ env.BUILD_WORKSPACE }}/firmware/
           if-no-files-found: error
