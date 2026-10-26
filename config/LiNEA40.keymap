@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 3>;
     };
@@ -131,11 +131,21 @@
         alt_p_tab: alt_p_tab {
             compatible = "zmk,behavior-mod-morph";
             label = "ALT_P_TAB";
-            bindings = <&kp P>, <&kp TAB>;
+            bindings = <&win_p_tab>, <&kp TAB>;
 
             #binding-cells = <0>;
             mods = <(MOD_LALT|MOD_RALT)>;
             keep-mods = <(MOD_LALT|MOD_RALT)>;
+        };
+
+        win_p_tab: win_p_tab {
+            compatible = "zmk,behavior-mod-morph";
+            label = "WIN_P_TAB";
+            bindings = <&kp P>, <&kp TAB>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_RGUI|MOD_LGUI)>;
+            keep-mods = <(MOD_LGUI|MOD_RGUI)>;
         };
     };
 
