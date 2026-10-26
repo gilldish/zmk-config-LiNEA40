@@ -57,7 +57,7 @@
         layers = <SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 3>;
     };
@@ -115,6 +115,11 @@
         CtrlEnter {
             bindings = <&kp LC(ENTER)>;
             key-positions = <29 28>;
+        };
+
+        esc {
+            bindings = <&kp ESCAPE>;
+            key-positions = <0 1>;
         };
     };
 
@@ -313,10 +318,10 @@
 
         FUNCTION {
             bindings = <
-&kp F1  &kp F2  &kp F3  &kp F4   &kp F5                     &trans      &trans  &kp LA(PRINTSCREEN)  &trans  &kp LC(LA(DELETE))
-&kp F6  &kp F7  &kp F8  &kp F9   &kp F10                    &trans      &trans  &kp LS(LG(S))        &trans  &kp LC(LS(ESCAPE))
-&trans  &trans  &trans  &kp F11  &kp F12                    &kp C_MUTE  &trans  &trans               &trans  &kp LC(LA(INS))
-&trans  &trans  &trans  &trans   &trans   &trans    &trans  &trans              &trans               &trans  &trans
+&kp F1  &kp F2               &kp F3         &kp F4   &kp F5                     &trans      &kp HOME        &kp UP_ARROW      &kp END          &kp PAGE_UP
+&kp F6  &kp F7               &kp F8         &kp F9   &kp F10                    &trans      &kp LEFT_ARROW  &kp DOWN_ARROW    &kp RIGHT_ARROW  &kp PAGE_DOWN
+&trans  &kp LA(PRINTSCREEN)  &kp LS(LG(S))  &kp F11  &kp F12                    &kp C_MUTE  &kp LESS_THAN   &kp GREATER_THAN  &trans           &trans
+&trans  &trans               &trans         &trans   &trans   &trans    &trans  &trans                      &trans            &trans           &trans
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
