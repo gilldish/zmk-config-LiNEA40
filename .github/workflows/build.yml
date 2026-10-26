@@ -1,4 +1,7 @@
-on: [push, pull_request, workflow_dispatch]
+name: LiNEA40 original firmware MANUAL
+
+on:
+  workflow_dispatch:
 
 jobs:
   build:
