@@ -72,5 +72,5 @@
 };
 
 &zip_temp_layer {
-    excluded-positions = <16 17 18>;
+    excluded-positions = <15 16 17 18 7 8>;
 };
