@@ -6,7 +6,6 @@
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
-#include "20261027_layers.h"
 
 //mouse cursol
 &mmv {
@@ -39,7 +38,7 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <L_BROWSING>;
+        layers = <1>;
         input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
     };
 };
@@ -47,7 +46,7 @@
 
 &trackball_listener {
     scroller {
-        layers = <L_NUMBER_SCROLL>;
+        layers = <7>;
         input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT> //スクロール方向を逆転
                          , <&zip_xy_to_scroll_mapper>
                          , <&zip_wheel_scaler 1 5>;
@@ -119,9 +118,9 @@
             display-name = "BASE";
             bindings = <
                 &kp Q          &kp W         &kp E               &kp R    &kp T                                    &kp Y        &kp U     &kp I            &kp O        &kp P
-                &kp A          &kp S         &kp D               &kp F    &kp G                                    &kp H        &kp J     &kp K            &kp L        &lt L_NUMBER_SCROLL MINUS
+                &kp A          &kp S         &kp D               &kp F    &kp G                                    &kp H        &kp J     &kp K            &kp L        &lt 7 MINUS
                 &kp Z          &kp X         &kp C               &kp V    &kp B                                    &kp N        &kp M     &kp COMMA        &kp DOT      &mt RIGHT_SHIFT BACKSPACE
-                &mt LCTRL ESC  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &kp INS  &lt L_NUMBER_SCROLL ENTER  &lt L_MARK TAB  &lt L_MARK BACKSPACE  &lt L_BROWSING SPACE            &lt L_WIRELESS SEMICOLON  &kp INT_YEN  &mt RIGHT_SHIFT SLASH
+                &mt LCTRL ESC  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &kp INS  &lt 7 ENTER  &lt 6 TAB  &lt 6 BACKSPACE  &lt 1 SPACE            &lt 11 SEMICOLON  &kp INT_YEN  &mt RIGHT_SHIFT SLASH
             >;
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
