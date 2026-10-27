@@ -6,7 +6,7 @@
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
-#include "../../../20261027_layers.h"
+#include "20261027_layers.h"
 
 //mouse cursol
 &mmv {
