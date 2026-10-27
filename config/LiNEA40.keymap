@@ -9,12 +9,7 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/pointing.h>
 
-#define MOUSE 1
-#define MARK 2
-#define CURSOR 3
-#define FUNCTION 4
-#define SCROLL 5
-#define WIRELESS 6
+#include "20261027_layers.h"
 
 //mouse cursol
 
@@ -48,14 +43,14 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <FUNCTION>;
+        layers = <L_BROWSING>;
         input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
     };
 };
 
 &trackball_listener {
     scroller {
-        layers = <SCROLL 9>;
+        layers = <L_NUMBER_SCROLL L_TRACKBALL_SCROLL>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
             //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
@@ -91,7 +86,7 @@
         CenterClick {
             bindings = <&mkp MB3>;
             key-positions = <18 17>;
-            layers = <1>;
+            layers = <L_MOUSE>;
         };
 
         IMEOFF {
@@ -122,11 +117,11 @@
         CenterClick2 {
             bindings = <&mkp MB3>;
             key-positions = <7 8>;
-            layers = <1>;
+            layers = <L_MOUSE>;
         };
 
-        to_layer4 {
-            bindings = <&to 4>;
+        to_browsing {
+            bindings = <&to L_BROWSING>;
             key-positions = <37 36>;
         };
     };
@@ -284,7 +279,7 @@
         IME_ON_mouseout: IME_ON {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
-            bindings = <&kp LANG1 &to 0>;
+            bindings = <&kp LANG1 &to L_BASE>;
             label = "IME_ON";
         };
 
@@ -301,31 +296,79 @@
     keymap {
         compatible = "zmk,keymap";
 
+        // 0: BASE
         default_layer {
+            display-name = "BASE";
             bindings = <
-&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                  &kp RIGHT    &kp Q      &kp O          &lt 8 W  &kp X
-&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                     &kp L        &kp A      &kp I          &kp U    &lt 9 E
+&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                  &kp RIGHT    &kp Q      &kp O          &lt L_BROWSER W  &kp X
+&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                     &kp L        &kp A      &kp I          &kp U    &lt L_TRACKBALL_SCROLL E
 &mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C      &K_ctrl_v                                     &kp Y        &kp COMMA  &kp J          &kp DOT  &mt RIGHT_SHIFT V
-&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 7 TAB     &lt 5 BACKSPACE    &lt 2 SPACE  &lt 4 ENTER             &kp RIGHT_ALT  &kp F18  &lt 6 ESC
+&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt L_SEOTO_URA TAB     &lt L_NUMBER_SCROLL BACKSPACE    &lt L_MARK SPACE  &lt L_BROWSING ENTER             &kp RIGHT_ALT  &kp F18  &lt L_WIRELESS ESC
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
 
-        //1
-
-        MOUSE {
+        // 1: BROWSING
+        browsing {
+            display-name = "BROWSING";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &mkp MB5  &mkp MB4  &mkp MB1  &mkp MB2  &mo 10
-&trans  &trans  &trans  &trans  &trans                    &mkp MB4  &mkp MB1  &mkp MB1  &mkp MB2  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans    &trans    &mkp MB4  &mkp MB5  &trans
-&trans  &trans  &trans  &trans  &mo 10  &trans    &trans  &trans              &trans    &trans    &trans
+&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &kp F            &kp HOME        &kp UP_ARROW    &kp END           &kp PAGE_UP
+&kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LA(LC(TAB))  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW   &kp PAGE_DOWN
+&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp C_MUTE       &kp LESS_THAN   &trans          &kp GREATER_THAN  &trans
+&trans               &trans  &trans  &trans  &trans   &trans    &trans  &kp SPACE                        &trans          &trans            &to L_BASE
+            >;
+
+            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+        };
+
+        // 2: RESERVED_1
+        reserved_1 {
+            display-name = "RESERVED_1";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
         };
 
-        //2
+        // 3: RESERVED_2
+        reserved_2 {
+            display-name = "RESERVED_2";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
 
-        MARK {
+        // 4: MOUSE
+        mouse {
+            display-name = "MOUSE";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans                    &mkp MB5  &mkp MB4  &mkp MB1  &mkp MB2  &mo L_MOUSE_SLOW
+&trans  &trans  &trans  &trans  &trans                    &mkp MB4  &mkp MB1  &mkp MB1  &mkp MB2  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans    &trans    &mkp MB4  &mkp MB5  &trans
+&trans  &trans  &trans  &trans  &mo L_MOUSE_SLOW  &trans    &trans  &trans              &trans    &trans    &trans
+            >;
+        };
+
+        // 5: seoto_ura
+        seoto_ura {
+            display-name = "seoto_ura";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans         &trans  &kp TILDE  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &kp BACKSPACE  &nn     &kp MINUS  &small_tsu
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans         &trans  &trans     &kp QMARK
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                 &trans  &trans     &trans
+            >;
+        };
+
+        // 6: MARK
+        mark {
+            display-name = "MARK";
             bindings = <
 &kp GRAVE  &kp SINGLE_QUOTE  &kp DOUBLE_QUOTES  &kp DOLLAR  &kp BACKSLASH                    &kp CARET  &kp EXCL  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &kp CARET
 &kp PIPE   &kp PERCENT       &kp SEMI           &kp COLON   &kp SLASH                        &trans     &kp AT    &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &kp UNDER
@@ -336,33 +379,9 @@
             sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
         };
 
-        //3
-
-        CURSOR {
-            bindings = <
-&trans    &kp LC(LG(LEFT_ARROW))  &kp UP_ARROW  &kp LC(LG(RIGHT_ARROW))  &trans                       &kp KP_SLASH     &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_MINUS
-&trans    &kp LEFT_ARROW          &kp DOWN      &kp RIGHT_ARROW          &trans                       &kp KP_MULTIPLY  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_PLUS
-&kp HOME  &kp PAGE_DOWN           &kp END       &kp PAGE_UP              &trans                       &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-&trans    &trans                  &trans        &trans                   &trans  &trans    &kp ENTER  &kp NUMBER_0                   &kp DOT       &kp ENTER     &kp QUESTION
-            >;
-        };
-
-        //4
-
-        FUNCTION {
-            bindings = <
-&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &kp F            &kp HOME        &kp UP_ARROW    &kp END           &kp PAGE_UP
-&kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LA(LC(TAB))  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW   &kp PAGE_DOWN
-&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp C_MUTE       &kp LESS_THAN   &trans          &kp GREATER_THAN  &trans
-&trans               &trans  &trans  &trans  &trans   &trans    &trans  &kp SPACE                        &trans          &trans            &to 0
-            >;
-
-            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
-        };
-
-        //5
-
-        SCROLL {
+        // 7: NUMBER_SCROLL
+        number_scroll {
+            display-name = "NUMBER_SCROLL";
             bindings = <
 &trans    &kp LC(LG(LEFT_ARROW))  &kp LG(UP_ARROW)  &kp LC(LG(RIGHT_ARROW))  &trans                    &kp KP_SLASH     &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_MINUS
 &trans    &kp LG(LEFT)            &kp LG(DOWN)      &kp LG(RIGHT)            &trans                    &kp KP_MULTIPLY  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_PLUS
@@ -373,29 +392,31 @@
             sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
         };
 
-        //6
-
-        WIRELESS {
+        // 8: trackball_scroll
+        trackball_scroll {
+            display-name = "trackball_scroll";
             bindings = <
-&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                              &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
-&trans          &trans        &trans        &out OUT_BLE  &out OUT_USB                              &trans          &trans        &trans        &trans        &sleep
-&bt BT_CLR      &trans        &trans        &trans        &trans                                    &trans          &trans        &trans        &trans        &trans
-&bt BT_CLR_ALL  &trans        &trans        &trans        &trans        &bootloader    &bootloader  &studio_unlock                &trans        &trans        &trans
-            >;
-
-            sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
-        };
-
-        seoto_ura {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans         &trans  &kp TILDE  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &kp BACKSPACE  &nn     &kp MINUS  &small_tsu
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans         &trans  &trans     &kp QMARK
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                 &trans  &trans     &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
             >;
         };
 
+        // 9: mouse_slow_1to
+        mouse_slow_1to {
+            display-name = "mouse_slow_1to";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
+            >;
+        };
+
+        // 10: browser
         browser {
+            display-name = "browser";
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &trans  &kp LC(W)      &kp LS(LC(TAB))  &trans  &kp LS(TAB)
 &trans  &trans  &trans  &trans  &trans                    &trans  &kp LS(LC(W))  &trans           &trans  &trans
@@ -404,22 +425,17 @@
             >;
         };
 
-        trackball_scroll {
+        // 11: WIRELESS
+        wireless {
+            display-name = "WIRELESS";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
+&bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                              &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4
+&trans          &trans        &trans        &out OUT_BLE  &out OUT_USB                              &trans          &trans        &trans        &trans        &sleep
+&bt BT_CLR      &trans        &trans        &trans        &trans                                    &trans          &trans        &trans        &trans        &trans
+&bt BT_CLR_ALL  &trans        &trans        &trans        &trans        &bootloader    &bootloader  &studio_unlock                &trans        &trans        &trans
             >;
-        };
 
-        mouse_slow_1to {
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
-            >;
+            sensor-bindings = <&inc_dec_kp RIGHT_ARROW LEFT_ARROW>;
         };
     };
 };

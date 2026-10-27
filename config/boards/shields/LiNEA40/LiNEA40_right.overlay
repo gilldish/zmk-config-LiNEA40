@@ -1,4 +1,5 @@
 #include "LiNEA40.dtsi"
+#include "../../../20261027_layers.h"
 #include <input/processors.dtsi>
 &default_transform {
     col-offset = <6>;
@@ -18,7 +19,7 @@
     trackball_listener {
         compatible = "zmk,input-listener";
         device = <&trackball>;
-        input-processors = <&zip_temp_layer 1 10000>;
+        input-processors = <&zip_temp_layer L_MOUSE 10000>;
 
     };
 };
@@ -60,9 +61,9 @@
         spi-max-frequency = <2000000>;
         irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //MOT-D6
         // Automatic mouse layer is managed by zip_temp_layer above.
-        snipe-layers = <2 10>;
-        scroll-layers = <5 9>;
-        //scroll-layers = <4 5 6>;
+        snipe-layers = <L_MARK L_MOUSE_SLOW>;
+        scroll-layers = <L_NUMBER_SCROLL L_TRACKBALL_SCROLL>;
+        // Example: scroll-layers = <L_BROWSING L_NUMBER_SCROLL L_WIRELESS>;
     };
 };
 
@@ -72,5 +73,6 @@
 };
 
 &zip_temp_layer {
-    excluded-positions = <6 7 8 15 16 17 18 20 29 30>;
+    // Preserve existing exclusions; also keep every mouse button and slow-mode key active.
+    excluded-positions = <5 6 7 8 9 15 16 17 18 20 27 28 29 30 34>;
 };
