@@ -6,12 +6,6 @@
 #include <input/processors.dtsi>
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 
-#define MOUSE 1
-#define MARK 2
-#define CURSOR 3
-#define FUNCTION 4
-#define SCROLL 5
-#define WIRELESS 6
 
 //mouse cursol
 &mmv {
@@ -44,7 +38,7 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <FUNCTION>;
+        layers = <1>;
         input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
     };
 };
@@ -52,7 +46,7 @@
 
 &trackball_listener {
     scroller {
-        layers = <SCROLL>;
+        layers = <7>;
         input-processors = <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT> //スクロール方向を逆転
                          , <&zip_xy_to_scroll_mapper>
                          , <&zip_wheel_scaler 1 5>;
@@ -119,49 +113,21 @@
     keymap {
         compatible = "zmk,keymap";
 
+        // 0: BASE
         default_layer {
+            display-name = "BASE";
             bindings = <
                 &kp Q          &kp W         &kp E               &kp R    &kp T                                    &kp Y        &kp U     &kp I            &kp O        &kp P
-                &kp A          &kp S         &kp D               &kp F    &kp G                                    &kp H        &kp J     &kp K            &kp L        &lt 5 MINUS
+                &kp A          &kp S         &kp D               &kp F    &kp G                                    &kp H        &kp J     &kp K            &kp L        &lt 7 MINUS
                 &kp Z          &kp X         &kp C               &kp V    &kp B                                    &kp N        &kp M     &kp COMMA        &kp DOT      &mt RIGHT_SHIFT BACKSPACE
-                &mt LCTRL ESC  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &kp INS  &lt 5 ENTER  &lt 2 TAB  &lt 2 BACKSPACE  &lt 4 SPACE            &lt 6 SEMICOLON  &kp INT_YEN  &mt RIGHT_SHIFT SLASH
+                &mt LCTRL ESC  &kp LEFT_WIN  &mt LEFT_ALT GRAVE  &kp INS  &lt 7 ENTER  &lt 6 TAB  &lt 6 BACKSPACE  &lt 1 SPACE            &lt 11 SEMICOLON  &kp INT_YEN  &mt RIGHT_SHIFT SLASH
             >;
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
 
-        //1
-        MOUSE {
-            bindings = <
-                &trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans                    &trans  &mkp MB1  &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
-                &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans            &trans  &trans  &trans
-            >;
-        };
-
-        //2
-        MARK {
-            bindings = <
-                &kp EXCLAMATION             &kp AT           &kp HASH         &kp DOLLAR     &kp PERCENT                                          &kp CARET     &kp AMPERSAND  &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LBKT
-                &kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp SEMICOLON  &kp SEMICOLON                                        &kp C_MUTE    &kp LS(LBKT)   &kp RIGHT_BRACKET      &kp BACKSLASH         &kp EQUAL
-                &mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp APOS       &kp SQT                                              &kp KP_EQUAL  &kp INT3       &kp LS(RIGHT_BRACKET)  &kp LS(BACKSLASH)     &kp LS(INT1)
-                &trans                      &trans           &trans           &trans         &trans         &trans          &trans                &trans                       &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LS(QUESTION)
-            >;
-            sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
-        };
-
-        //3
-        CURSOR {
-            bindings = <
-                &trans    &kp LC(LG(LEFT_ARROW))  &kp UP_ARROW  &kp LC(LG(RIGHT_ARROW))  &trans                       &kp KP_MULTIPLY  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
-                &trans    &kp LEFT_ARROW          &kp DOWN      &kp RIGHT_ARROW          &trans                       &kp KP_SLASH     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
-                &kp HOME  &kp PAGE_DOWN           &kp END       &kp PAGE_UP              &trans                       &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-                &trans    &trans                  &trans        &trans                   &trans  &trans    &kp ENTER  &kp NUMBER_0                   &kp DOT       &kp ENTER     &kp QUESTION
-            >;
-        };
-
-        //4
-        FUNCTION {
+        // 1: BROWSING
+        browsing {
+            display-name = "BROWSING";
             bindings = <
                 &kp F1  &kp F2  &kp F3  &kp F4   &kp F5                     &trans      &trans  &kp LA(PRINTSCREEN)  &trans  &kp LC(LA(DELETE))
                 &kp F6  &kp F7  &kp F8  &kp F9   &kp F10                    &trans      &trans  &kp LS(LG(S))        &trans  &kp LC(LS(ESCAPE))
@@ -171,8 +137,65 @@
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
 
-        //5
-        SCROLL {
+        // 2: RESERVED_1
+        reserved_1 {
+            display-name = "RESERVED_1";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 3: RESERVED_2
+        reserved_2 {
+            display-name = "RESERVED_2";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 4: MOUSE
+        mouse {
+            display-name = "MOUSE";
+            bindings = <
+                &trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans                    &trans  &mkp MB1  &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans                    &trans  &trans    &trans  &trans  &trans
+                &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans            &trans  &trans  &trans
+            >;
+        };
+
+        // 5: seoto_ura
+        seoto_ura {
+            display-name = "seoto_ura";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 6: MARK
+        mark {
+            display-name = "MARK";
+            bindings = <
+                &kp EXCLAMATION             &kp AT           &kp HASH         &kp DOLLAR     &kp PERCENT                                          &kp CARET     &kp AMPERSAND  &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LBKT
+                &kp SLASH                   &kp KP_NUMBER_4  &kp KP_NUMBER_5  &kp SEMICOLON  &kp SEMICOLON                                        &kp C_MUTE    &kp LS(LBKT)   &kp RIGHT_BRACKET      &kp BACKSLASH         &kp EQUAL
+                &mt LEFT_SHIFT KP_NUMBER_0  &kp KP_NUMBER_1  &kp KP_NUMBER_2  &kp APOS       &kp SQT                                              &kp KP_EQUAL  &kp INT3       &kp LS(RIGHT_BRACKET)  &kp LS(BACKSLASH)     &kp LS(INT1)
+                &trans                      &trans           &trans           &trans         &trans         &trans          &trans                &trans                       &kp ASTERISK           &kp LEFT_PARENTHESIS  &kp LS(QUESTION)
+            >;
+            sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
+        };
+
+        // 7: NUMBER_SCROLL
+        number_scroll {
+            display-name = "NUMBER_SCROLL";
              bindings = <
                 &trans    &kp LC(LG(LEFT_ARROW))  &kp UP_ARROW  &kp LC(LG(RIGHT_ARROW))  &trans                       &kp KP_MULTIPLY  &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_PLUS
                 &trans    &kp LEFT_ARROW          &kp DOWN      &kp RIGHT_ARROW          &trans                       &kp KP_SLASH     &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_MINUS
@@ -181,8 +204,42 @@
             >;
         };
 
-        //6
-        WIRELESS {
+        // 8: trackball_scroll
+        trackball_scroll {
+            display-name = "trackball_scroll";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 9: mouse_slow_1to
+        mouse_slow_1to {
+            display-name = "mouse_slow_1to";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 10: browser
+        browser {
+            display-name = "browser";
+            bindings = <
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+&trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            >;
+        };
+
+        // 11: WIRELESS
+        wireless {
+            display-name = "WIRELESS";
             bindings = <
                 &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                 &trans &trans &trans &trans &trans
                 &trans        &trans        &trans        &trans        &trans                       &trans &trans &trans &trans &trans
