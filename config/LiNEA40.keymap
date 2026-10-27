@@ -58,7 +58,7 @@
         layers = <SCROLL 9>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 3>;
     };
@@ -126,6 +126,11 @@
         DeleteKey2 {
             bindings = <&kp DEL>;
             key-positions = <16 9>;
+        };
+
+        window_minimum {
+            bindings = <&window_minimum>;
+            key-positions = <31 32>;
         };
     };
 
@@ -284,6 +289,15 @@
             #binding-cells = <0>;
             bindings = <&kp LANG1 &to 0>;
             label = "IME_ON";
+        };
+
+        window_minimum: window_minimum {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LA(SPACE) &kp N>;
+            label = "WINDOW_MINIMUM";
+            wait-ms = <40>;
+            tap-ms = <40>;
         };
     };
 
