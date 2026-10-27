@@ -2,9 +2,6 @@ name: LiNEA40 keypress reconnect AUTO
 run-name: Keypress reconnect AUTO at ${{ github.sha }}
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 permissions:
