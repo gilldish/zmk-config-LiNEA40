@@ -74,5 +74,5 @@
 
 &zip_temp_layer {
     // Preserve existing exclusions; also keep every mouse button and slow-mode key active.
-    excluded-positions = <5 6 7 8 9 15 16 17 18 20 27 28 29 30 34>;
+    excluded-positions = <5 6 7 8 9 15 16 17 18 19 20 27 28 29 30 34>;
 };
