@@ -51,7 +51,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -300,7 +300,7 @@
             display-name = "BASE";
             bindings = <
 &D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                  &kp RIGHT    &kp Q      &kp O          &lt 10 W  &kp X
-&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                     &kp L        &kp A      &kp I          &kp U     &lt 8 E
+&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                     &kp L        &kp A      &kp I          &kp U     &kp E
 &mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C      &K_ctrl_v                                     &kp Y        &kp COMMA  &kp J          &kp DOT   &mt RIGHT_SHIFT V
 &kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 5 TAB     &lt 7 BACKSPACE    &lt 6 SPACE  &lt 1 ENTER             &kp RIGHT_ALT  &kp F18   &lt 11 ESC
             >;
@@ -352,7 +352,7 @@
             display-name = "MOUSE";
             bindings = <
 &trans  &trans  &trans  &trans  &trans                    &mkp MB5  &mkp MB4  &mkp MB1  &mkp MB2  &mo 9
-&trans  &trans  &trans  &trans  &trans                    &mkp MB4  &mkp MB1  &mkp MB1  &mkp MB2  &trans
+&trans  &trans  &trans  &trans  &trans                    &mkp MB4  &mkp MB1  &mkp MB1  &mkp MB2  &mo 8
 &trans  &trans  &trans  &trans  &trans                    &trans    &trans    &mkp MB4  &mkp MB5  &tog 4
 &trans  &trans  &trans  &trans  &mo 9   &trans    &trans  &trans              &trans    &trans    &trans
             >;
