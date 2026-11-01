@@ -1,4 +1,4 @@
-name: LiNEA40 keypress reconnect AUTO
+name: "★LiNEA40 keypress reconnect AUTO"
 run-name: Keypress reconnect AUTO at ${{ github.sha }}
 
 on:
