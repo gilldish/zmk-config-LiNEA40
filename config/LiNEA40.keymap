@@ -53,7 +53,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -177,7 +177,7 @@
         win_p_tab: win_p_tab {
             compatible = "zmk,behavior-mod-morph";
             label = "WIN_P_TAB";
-            bindings = <&kp P>, <&kp TAB>;
+            bindings = <&P_DOUBLE_ESC>, <&kp TAB>;
 
             #binding-cells = <0>;
             mods = <(MOD_RGUI|MOD_LGUI)>;
@@ -281,9 +281,9 @@
             toggle-mode = "off";
         };
 
-        esc_tap_dance: esc_tap_dance {
+        P_DOUBLE_ESC: P_DOUBLE_ESC {
             compatible = "zmk,behavior-tap-dance";
-            label = "ESC_TAP_DANCE";
+            label = "P_DOUBLE_ESC";
             #binding-cells = <0>;
             bindings = <&kp P>, <&kp ESCAPE>;
         };
