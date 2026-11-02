@@ -53,7 +53,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -105,7 +105,7 @@
         esc {
             bindings = <&kp ESCAPE>;
             key-positions = <0 1>;
-            layers = <0>;
+            layers = <0 2>;
         };
 
         DeleteKey2 {
