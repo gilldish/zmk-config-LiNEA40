@@ -53,7 +53,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -280,6 +280,46 @@
             label = "LAYER_OFF";
             #binding-cells = <1>;
             toggle-mode = "off";
+        };
+
+        win_arrow_left: win_arrow_left {
+            compatible = "zmk,behavior-mod-morph";
+            label = "WIN_ARROW_LEFT";
+            bindings = <&win_start_left>, <&kp LEFT>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LGUI)>;
+            keep-mods = <(MOD_LGUI)>;
+        };
+
+        win_arrow_down: win_arrow_down {
+            compatible = "zmk,behavior-mod-morph";
+            label = "WIN_ARROW_DOWN";
+            bindings = <&win_start_down>, <&kp DOWN>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LGUI)>;
+            keep-mods = <(MOD_LGUI)>;
+        };
+
+        win_arrow_up: win_arrow_up {
+            compatible = "zmk,behavior-mod-morph";
+            label = "WIN_ARROW_UP";
+            bindings = <&win_start_up>, <&kp UP>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LGUI)>;
+            keep-mods = <(MOD_LGUI)>;
+        };
+
+        win_arrow_right: win_arrow_right {
+            compatible = "zmk,behavior-mod-morph";
+            label = "WIN_ARROW_RIGHT";
+            bindings = <&win_start_right>, <&kp RIGHT>;
+
+            #binding-cells = <0>;
+            mods = <(MOD_LGUI)>;
+            keep-mods = <(MOD_LGUI)>;
         };
     };
 
