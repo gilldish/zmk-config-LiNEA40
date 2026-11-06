@@ -55,7 +55,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -107,7 +107,7 @@
         esc {
             bindings = <&kp ESCAPE>;
             key-positions = <0 1>;
-            layers = <0 2>;
+            layers = <0 3>;
         };
 
         DeleteKey2 {
@@ -127,7 +127,7 @@
         };
 
         to_browsing {
-            bindings = <&to 2>;
+            bindings = <&to 3>;
             key-positions = <38 39 40>;
             layers = <0 4>;
             timeout-ms = <150>;
@@ -160,13 +160,13 @@
         L2_greater {
             bindings = <&kp GREATER_THAN>;
             key-positions = <28 40>;
-            layers = <2>;
+            layers = <3>;
         };
 
         L2_less {
             bindings = <&kp LESS_THAN>;
             key-positions = <28 38>;
-            layers = <2>;
+            layers = <3>;
         };
     };
 
@@ -492,10 +492,10 @@
         fx_arrow {
             display-name = "fx_arrow";
             bindings = <
-&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &kp F      &kp LA(LEFT)    &kp UP_ARROW    &kp F19           &kp PAGE_UP
-&kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &trans     &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW   &kp PAGE_DOWN
-&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp LC(W)  &kp LESS_THAN   &none           &kp GREATER_THAN  &trans
-&trans               &trans  &trans  &trans  &trans   &trans    &trans  &kp SPACE                  &trans          &trans            &trans
+&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &kp F          &kp LA(LEFT)    &kp UP_ARROW    &kp F19          &kp PAGE_UP
+&kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LC(W)      &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp PAGE_DOWN
+&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp LC(SPACE)  &kp HOME        &none           &kp END          &trans
+&trans               &trans  &trans  &trans  &trans   &trans    &trans  &trans                         &trans          &trans           &trans
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
