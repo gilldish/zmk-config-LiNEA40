@@ -55,7 +55,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -127,7 +127,7 @@
         };
 
         to_browsing {
-            bindings = <&to 2>;
+            bindings = <&to2_youtube>;
             key-positions = <38 39 40>;
             layers = <0 4>;
             timeout-ms = <150>;
@@ -467,6 +467,13 @@
             label = "NUMBER7_HOLD";
             wait-ms = <0>;
             tap-ms = <0>;
+        };
+
+        to2_youtube: to2_youtube {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&to 2 &kp F19>;
+            label = "TO2_YOUTUBE";
         };
     };
 
