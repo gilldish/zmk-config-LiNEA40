@@ -55,7 +55,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -492,7 +492,7 @@
         fx_arrow {
             display-name = "fx_arrow";
             bindings = <
-&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &kp LA(LEFT)   &kp HOME        &kp UP_ARROW    &kp END          &kp PAGE_UP
+&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &mkp MB4       &kp HOME        &kp UP_ARROW    &kp END          &kp PAGE_UP
 &kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LC(W)      &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp PAGE_DOWN
 &kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp LC(SPACE)  &kp F           &none           &kp F19          &trans
 &trans               &trans  &trans  &trans  &trans   &trans    &trans  &trans                         &trans          &trans           &trans
