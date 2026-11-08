@@ -55,7 +55,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 5>;
     };
@@ -545,10 +545,10 @@
         youtube {
             display-name = "youtube";
             bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans              &trans  &trans          &trans          &to 0
-&trans  &trans  &trans  &trans  &trans                    &kp LC(W)           &trans  &kp F           &kp T           &kp ESCAPE
-&trans  &trans  &trans  &trans  &trans                    &kp SPACE           &trans  &mkp MB4        &kp UP_ARROW    &kp F19
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &lt 1 C_PLAY_PAUSE          &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW
+&trans  &trans  &trans  &trans  &trans                       &trans              &trans  &trans          &trans          &to 0
+&trans  &trans  &trans  &trans  &trans                       &kp LC(W)           &trans  &kp F           &kp T           &kp ESCAPE
+&trans  &trans  &trans  &trans  &trans                       &kp SPACE           &trans  &mkp MB4        &kp UP_ARROW    &kp F19
+&trans  &trans  &trans  &trans  &trans  &trans    &kp SPACE  &lt 1 C_PLAY_PAUSE          &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW
             >;
         };
 
