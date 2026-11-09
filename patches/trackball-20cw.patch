@@ -12,8 +12,8 @@ diff --git a/app/src/pointing/input_listener.c b/app/src/pointing/input_listener
 +                // Screen Y increases downward, so positive angles rotate clockwise.
 +                // Q15 coefficients for cos(20 degrees) and sin(20 degrees).
 +                const int32_t scale = 32768;
-+                const int32_t cosine = 30792;
-+                const int32_t sine = 11207;
++                const int32_t cosine = 32270;
++                const int32_t sine = 5690;
 +                static int32_t x_remainder;
 +                static int32_t y_remainder;
 +
