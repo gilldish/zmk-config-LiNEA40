@@ -58,6 +58,8 @@ jobs:
         run: |
           git -C zmk apply --check "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
           git -C zmk apply "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
+          git -C zmk apply --check "$GITHUB_WORKSPACE/patches/trackball-20cw.patch"
+          git -C zmk apply "$GITHUB_WORKSPACE/patches/trackball-20cw.patch"
           git -C zmk diff --check
           git -C zmk diff > applied-zmk.patch
 
