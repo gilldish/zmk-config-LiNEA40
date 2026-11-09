@@ -1,0 +1,12 @@
+name: LiNEA40 Bluetooth layer probe
+on:
+  push:
+    branches: [test/linea40-ble-layer-probe]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.2.1
+    with:
+      build_matrix_path: layer-probe/build.yaml
