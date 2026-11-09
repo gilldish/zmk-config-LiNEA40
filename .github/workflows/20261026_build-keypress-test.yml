@@ -38,7 +38,7 @@ jobs:
           west manifest --freeze --active-only > dependency-revisions.yml
           west zephyr-export
 
-      # Build these two images before applying the Bluetooth patch.
+      # Build the left and settings-reset images before preparing the right-half patches.
       - name: Build the original left-half firmware
         working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
@@ -53,7 +53,7 @@ jobs:
             -DZMK_CONFIG="$BUILD_WORKSPACE/config" \
             -DSHIELD=settings_reset
 
-      - name: Apply the keypress reconnect patch for the right half
+      - name: Apply the keypress reconnect and trackball rotation patches
         working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
           git -C zmk apply --check "$GITHUB_WORKSPACE/patches/20261026_keypress-reconnect.patch"
@@ -63,14 +63,16 @@ jobs:
           git -C zmk diff --check
           git -C zmk diff > applied-zmk.patch
 
-      - name: Build the patched right-half firmware with the existing keymap
+      - name: Build the right-half firmware with Bluetooth layer notifications
         working-directory: ${{ env.BUILD_WORKSPACE }}
         run: |
           west build -s zmk/app -d build-right -b seeeduino_xiao_ble \
             -S studio-rpc-usb-uart -- \
             -DZMK_CONFIG="$BUILD_WORKSPACE/config" \
+            -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE" \
             -DSHIELD="LiNEA40_right rgbled_adapter" \
             -DCONFIG_ZMK_STUDIO=y
+          test -n "$(find build-right -name 'layer_probe.c.obj' -print -quit)"
 
       - name: Package all three firmware files with their original names
         working-directory: ${{ env.BUILD_WORKSPACE }}
@@ -86,8 +88,8 @@ jobs:
           printf '%s\n' \
             "Config revision: $GITHUB_SHA" \
             "ZMK base: 241ff39556b3685c9344c4c22fd9a655af8eb3ba" \
-            "Right: keypress reconnect patch applied" \
-            "Left and settings reset: built before applying the patch" \
+            "Right: keypress reconnect and trackball rotation patches, Bluetooth layer probe" \
+            "Left and settings reset: built before applying the patches" \
             > firmware/build-info/build-revision.txt
           (cd firmware && sha256sum -- *.uf2 > build-info/SHA256SUMS.txt)
 
