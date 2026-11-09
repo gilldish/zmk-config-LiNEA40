@@ -62,7 +62,7 @@
         irq-gpios = <&xiao_d 6 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>; //MOT-D6
         // Automatic mouse layer is managed by zip_temp_layer above.
         snipe-layers = <L_MARK L_MOUSE_SLOW>;
-        scroll-layers = <L_NUMBER_SCROLL L_TRACKBALL_SCROLL>;
+        // scroll-layers = <L_NUMBER_SCROLL L_TRACKBALL_SCROLL>;
         // Example: scroll-layers = <L_BROWSING L_NUMBER_SCROLL L_WIRELESS>;
     };
 };
