@@ -6,7 +6,48 @@ on:
 permissions:
   contents: read
 jobs:
-  build:
-    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.2.1
-    with:
-      build_matrix_path: layer-probe/build.yaml
+  right-layer-probe:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prepare the original v0.2.1 dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          workspace=$(mktemp -d)
+          mkdir -p "$workspace/config"
+          cp -a config/. "$workspace/config/"
+          echo "PROBE_WORKSPACE=$workspace" >> "$GITHUB_ENV"
+          cd "$workspace"
+          west init -l config
+          west update
+          test "$(git -C zmk rev-parse HEAD)" = 241ff39556b3685c9344c4c22fd9a655af8eb3ba
+          west manifest --freeze --active-only > dependency-revisions.yml
+          west zephyr-export
+      - name: Preserve the normal right-half patches and build the probe
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$PROBE_WORKSPACE"
+          for patch in 20261026_keypress-reconnect.patch trackball-20cw.patch; do
+            git -C zmk apply --check "$GITHUB_WORKSPACE/patches/$patch"
+            git -C zmk apply "$GITHUB_WORKSPACE/patches/$patch"
+          done
+          git -C zmk diff --check
+          west build -s zmk/app -d build-right -b seeeduino_xiao_ble -S studio-rpc-usb-uart -- \
+            -DZMK_CONFIG="$PROBE_WORKSPACE/config" \
+            -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE" \
+            -DSHIELD="LiNEA40_right rgbled_adapter" \
+            -DCONFIG_ZMK_STUDIO=y
+          test -n "$(find build-right -name 'layer_probe.c.obj' -print -quit)"
+          mkdir firmware
+          cp build-right/zephyr/zmk.uf2 firmware/LiNEA40_right_layer_probe.uf2
+          cp dependency-revisions.yml firmware/
+          (cd firmware && sha256sum LiNEA40_right_layer_probe.uf2 > SHA256SUMS.txt)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LiNEA40_right_layer_probe
+          path: ${{ env.PROBE_WORKSPACE }}/firmware/
+          if-no-files-found: error
