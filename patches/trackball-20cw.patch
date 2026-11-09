@@ -1,0 +1,31 @@
+diff --git a/app/src/pointing/input_listener.c b/app/src/pointing/input_listener.c
+--- a/app/src/pointing/input_listener.c
++++ b/app/src/pointing/input_listener.c
+@@ -33,7 +33,26 @@
+         }
+ 
+         if (data->mouse.data.mode == INPUT_LISTENER_XY_DATA_MODE_REL) {
+-            zmk_hid_mouse_movement_set(data->mouse.data.x.value, data->mouse.data.y.value);
++            int16_t x = data->mouse.data.x.value;
++            int16_t y = data->mouse.data.y.value;
++            if (evt->dev == DEVICE_DT_GET(DT_NODELABEL(trackball))) {
++                // Screen Y increases downward, so positive angles rotate clockwise.
++                // Q15 coefficients for cos(20 degrees) and sin(20 degrees).
++                const int32_t scale = 32768;
++                const int32_t cosine = 30792;
++                const int32_t sine = 11207;
++                static int32_t x_remainder;
++                static int32_t y_remainder;
++
++                // Carry fractional counts to the next report at low speeds.
++                int32_t rotated_x = cosine * x - sine * y + x_remainder;
++                int32_t rotated_y = sine * x + cosine * y + y_remainder;
++                x = CLAMP(rotated_x / scale, INT16_MIN, INT16_MAX);
++                y = CLAMP(rotated_y / scale, INT16_MIN, INT16_MAX);
++                x_remainder = rotated_x % scale;
++                y_remainder = rotated_y % scale;
++            }
++            zmk_hid_mouse_movement_set(x, y);
+         }
+ 
+         if (data->mouse.button_set != 0) {
