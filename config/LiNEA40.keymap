@@ -80,6 +80,7 @@
         IMEON {
             bindings = <&IME_ON_mouseout>;
             key-positions = <17 16>;
+            timeout-ms = <80>;
         };
 
         CenterClick {
@@ -91,6 +92,7 @@
         IMEOFF {
             bindings = <&kp LANGUAGE_2>;
             key-positions = <13 12>;
+            timeout-ms = <80>;
         };
 
         CtrlEnter {
