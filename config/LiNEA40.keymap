@@ -55,7 +55,7 @@
         layers = <7 8>;
         input-processors =
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 20>;
     };
@@ -593,10 +593,10 @@
         mark {
             display-name = "MARK";
             bindings = <
-&kp GRAVE  &kp SINGLE_QUOTE  &kp DOUBLE_QUOTES  &kp DOLLAR  &kp BACKSLASH                    &trans  &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &trans
-&kp PIPE   &kp PERCENT       &kp SEMI           &kp COLON   &kp SLASH                        &trans  &trans  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &trans
-&trans     &trans            &kp CARET          &kp UNDER   &trans                           &trans  &trans  &kp LEFT_BRACE        &kp RIGHT_BRACE        &trans
-&trans     &trans            &trans             &trans      &trans         &trans    &trans  &trans          &trans                &trans                 &trans
+&kp GRAVE  &kp SINGLE_QUOTE  &kp DOUBLE_QUOTES  &kp DOLLAR  &kp BACKSLASH                    &trans  &kp LEFT_BRACKET      &kp RIGHT_BRACKET      &trans  &trans
+&kp PIPE   &kp PERCENT       &kp SEMI           &kp COLON   &kp SLASH                        &trans  &kp LEFT_PARENTHESIS  &kp RIGHT_PARENTHESIS  &trans  &trans
+&trans     &trans            &kp CARET          &kp UNDER   &trans                           &trans  &kp LEFT_BRACE        &kp RIGHT_BRACE        &trans  &trans
+&trans     &trans            &trans             &trans      &trans         &trans    &trans  &trans                        &trans                 &trans  &trans
             >;
 
             sensor-bindings = <&re_kp C_VOLUME_DOWN C_VOLUME_UP>;
