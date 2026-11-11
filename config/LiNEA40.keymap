@@ -33,6 +33,14 @@
 
 / {
     input_processors {
+        // No remainder tracking: disabled trackball motion must never accumulate.
+        zip_trackball_block: zip_trackball_block {
+            compatible = "zmk,input-processor-scaler";
+            #input-processor-cells = <2>;
+            type = <INPUT_EV_REL>;
+            codes = <INPUT_REL_X INPUT_REL_Y INPUT_REL_WHEEL INPUT_REL_HWHEEL>;
+        };
+
         zip_wheel_scaler: zip_wheel_scaler {
             compatible = "zmk,input-processor-scaler";
             #input-processor-cells = <2>;
@@ -45,17 +53,25 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <1>;
+        layers = <1 13>;
         input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
     };
 };
 
 &trackball_listener {
+    // First matching override wins. Do not process the base zip_temp_layer
+    // while NUMBER_SCROLL is active, including while layer 13 is held.
+    number_block {
+        layers = <7>;
+        input-processors = <&zip_trackball_block 0 1>;
+    };
+
     scroller {
-        layers = <7 8>;
+        layers = <8>;
         input-processors =
+            // Disable horizontal scrolling; remove this scaler to restore it.
+            <&zip_x_scaler 0 1>,
             <&zip_xy_transform INPUT_TRANSFORM_Y_INVERT>,
-            //スクロール方向を逆転,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
             <&zip_xy_to_scroll_mapper>,
             <&zip_wheel_scaler 1 20>;
     };
@@ -90,7 +106,7 @@
         };
 
         IMEOFF {
-            bindings = <&kp LANGUAGE_2>;
+            bindings = <&IME_OFF_mouseout>;
             key-positions = <13 12>;
             timeout-ms = <80>;
         };
@@ -135,25 +151,25 @@
         L1_home {
             bindings = <&kp HOME>;
             key-positions = <8 9>;
-            layers = <1>;
+            layers = <1 13>;
         };
 
         L1_end {
             bindings = <&kp END>;
             key-positions = <18 19>;
-            layers = <1>;
+            layers = <1 13>;
         };
 
         L1_less {
             bindings = <&kp LESS_THAN>;
             key-positions = <7 16>;
-            layers = <1>;
+            layers = <1 13>;
         };
 
         L1_greater {
             bindings = <&kp GREATER_THAN>;
             key-positions = <7 18>;
-            layers = <1>;
+            layers = <1 13>;
         };
 
         L2_greater {
@@ -427,6 +443,13 @@
             label = "IME_ON";
         };
 
+        IME_OFF_mouseout: IME_OFF {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp LANGUAGE_2 &to 0>;
+            label = "IME_OFF";
+        };
+
         window_minimum: window_minimum {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -622,7 +645,7 @@
 &trans    &kp LC(LG(LEFT_ARROW))  &win_arrow_up    &kp LC(LG(RIGHT_ARROW))  &trans                    &kp KP_SLASH     &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_MINUS
 &trans    &win_arrow_left         &win_arrow_down  &win_arrow_right         &trans                    &kp KP_MULTIPLY  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_PLUS
 &kp HOME  &kp PAGE_DOWN           &kp END          &kp PAGE_UP              &trans                    &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-&trans    &trans                  &trans           &trans                   &trans  &trans    &trans  &lt 1 NUMBER_0                 &kp NUMBER_0  &kp DOT       &kp EQUAL
+&trans    &trans                  &trans           &trans                   &trans  &trans    &trans  &lt 13 NUMBER_0                 &kp NUMBER_0  &kp DOT       &kp EQUAL
             >;
 
             sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
@@ -688,6 +711,20 @@
 &trans  &trans  &trans  &trans  &trans                    &trans  &trans           &trans           &trans  &trans
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans                   &trans           &trans  &trans
             >;
+        };
+
+        // 13: Copy of layer 1, above NUMBER_SCROLL for momentary arrows.
+
+        fx_arrow_number {
+            display-name = "fx_arrow_number";
+            bindings = <
+&trans               &kp F7  &kp F8  &kp F9  &kp F12                    &mkp MB4   &kp HOME        &kp UP_ARROW    &kp END          &kp PAGE_UP
+&kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LC(W)  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp PAGE_DOWN
+&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp SPACE  &kp F           &none           &kp F19          &trans
+&trans               &trans  &trans  &trans  &trans   &trans    &trans  &trans                     &trans          &trans           &trans
+            >;
+
+            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
     };
 };
