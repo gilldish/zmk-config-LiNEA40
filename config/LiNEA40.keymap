@@ -174,6 +174,15 @@
     };
 
     behaviors {
+        W_lt: W_lt {
+            compatible = "zmk,behavior-hold-tap";
+            label = "W_LT";
+            #binding-cells = <2>;
+            bindings = <&mo>, <&kp>;
+            flavor = "balanced";
+            tapping-term-ms = <200>;
+        };
+
         // Keep only left-click available briefly after leaving MOUSE.
 
         sl_mouse: sticky_layer_for_mouse {
@@ -517,7 +526,7 @@
         default_layer {
             display-name = "BASE";
             bindings = <
-&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                        &kp RIGHT    &kp Q      &kp O          &lt 10 W  &kp X
+&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                        &kp RIGHT    &kp Q      &kp O          &W_lt 10 W  &kp X
 &kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                           &kp L        &kp A      &kp I          &kp U     &lt 8 E
 &mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C      &K_ctrl_v                                           &kp Y        &kp COMMA  &kp J          &kp DOT   &mt RIGHT_SHIFT V
 &kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 5 SPACE   &number7_lt 0 TAB    &lt 6 BACKSPACE  &lt 1 ENTER             &kp RIGHT_ALT  &kp F18   &lt 11 ESC
