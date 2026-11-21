@@ -574,7 +574,7 @@
 &trans               &trans  &trans  &trans  &trans   &trans    &trans  &trans                     &trans          &trans           &trans
             >;
 
-            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
+            sensor-bindings = <&mouse_scrl SCRL_RIGHT SCRL_LEFT>;
         };
 
         // 2: RESERVED_1
@@ -587,6 +587,9 @@
 &trans  &trans  &trans  &trans  &trans                       &kp SPACE           &trans  &mkp MB4        &kp UP_ARROW    &kp F19
 &trans  &trans  &trans  &trans  &trans  &trans    &kp SPACE  &lt 1 C_PLAY_PAUSE          &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW
             >;
+
+            // Keep vertical scrolling when entering layer 1 from YouTube.
+            sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
         };
 
         // 3: RESERVED_2
