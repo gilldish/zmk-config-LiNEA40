@@ -1,3 +1,6 @@
 if(CONFIG_ZMK_BLE AND CONFIG_SHIELD_LiNEA40_RIGHT AND CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
-  target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/layer_probe.c)
+  target_sources(app PRIVATE
+    ${CMAKE_CURRENT_LIST_DIR}/layer_probe.c
+    ${CMAKE_CURRENT_LIST_DIR}/profile_layout.c
+  )
 endif()

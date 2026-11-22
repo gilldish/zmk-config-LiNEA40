@@ -2,17 +2,27 @@
 #define LINEA40_LAYERS_H
 
 // Shared layer indices: keymap child order must match these values.
-#define L_BASE 0
-#define L_BROWSING 1
-#define L_RESERVED_1 2
-#define L_RESERVED_2 3
-#define L_MOUSE 4
-#define L_SEOTO_URA 5
-#define L_MARK 6
-#define L_NUMBER_SCROLL 7
-#define L_TRACKBALL_SCROLL 8
-#define L_MOUSE_SLOW 9
-#define L_BROWSER 10
-#define L_WIRELESS 11
+#define L_BASE               0
+#define L_MAC_BASE           1
+#define L_IPAD_BASE          2
+#define L_BROWSING           3
+#define L_APPLE_BROWSING     4
+#define L_RESERVED_1         5
+#define L_APPLE_YOUTUBE      6
+#define L_RESERVED_2         7
+#define L_MOUSE              8
+#define L_SEOTO_URA          9
+#define L_IPAD_SEOTO         10
+#define L_MARK               11
+#define L_NUMBER_SCROLL      12
+#define L_MAC_NUMBER         13
+#define L_TRACKBALL_SCROLL   14
+#define L_MOUSE_SLOW         15
+#define L_BROWSER            16
+#define L_APPLE_BROWSER      17
+#define L_WIRELESS           18
+#define L_CLICK_REPEAT       19
+#define L_FX_NUMBER          20
+#define L_APPLE_FX_NUMBER    21
 
 #endif
