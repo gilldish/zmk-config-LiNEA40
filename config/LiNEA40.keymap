@@ -54,7 +54,7 @@
 
 &msc_input_listener {
     speed_up {
-        layers = <4 21>;
+        layers = <4 20>;
         input-processors = <&zip_wheel_scaler 3 1>; //スクロールを3倍速にする
     };
 };
@@ -64,12 +64,12 @@
     // while NUMBER_SCROLL is active, including while fn/arrow keys overlay it.
 
     number_block {
-        layers = <13>;
+        layers = <12>;
         input-processors = <&zip_trackball_block 0 1>;
     };
 
     scroller {
-        layers = <15>;
+        layers = <14>;
         input-processors =
             // Disable horizontal scrolling; remove this scaler to restore it.,,
             <&zip_x_scaler 0 1>,
@@ -86,7 +86,7 @@
         DeleteKey {
             bindings = <&kp DEL>;
             key-positions = <9 8>;
-            layers = <0 13 1 2 14 3>;
+            layers = <0 12 1 2 13 3>;
         };
 
         InsertKey {
@@ -104,7 +104,7 @@
         CenterClick {
             bindings = <&mkp MB3>;
             key-positions = <18 17>;
-            layers = <9>;
+            layers = <8>;
         };
 
         IMEOFF {
@@ -122,13 +122,13 @@
         esc {
             bindings = <&kp ESCAPE>;
             key-positions = <0 1>;
-            layers = <0 8 1 2 3>;
+            layers = <0 22 1 2 3>;
         };
 
         DeleteKey2 {
             bindings = <&kp DEL>;
             key-positions = <16 9>;
-            layers = <0 13 1 2 14 3>;
+            layers = <0 12 1 2 13 3>;
         };
 
         window_minimum {
@@ -146,38 +146,38 @@
         CenterClick2 {
             bindings = <&mkp MB3>;
             key-positions = <7 8>;
-            layers = <9>;
+            layers = <8>;
         };
 
         to_browsing {
             bindings = <&to2_youtube>;
             key-positions = <38 39 40>;
-            layers = <0 9 1 2 3>;
+            layers = <0 8 1 2 3>;
             timeout-ms = <150>;
         };
 
         L1_home {
             bindings = <&kp HOME>;
             key-positions = <8 9>;
-            layers = <4 21 5 22>;
+            layers = <4 20 5 21>;
         };
 
         L1_end {
             bindings = <&kp END>;
             key-positions = <18 19>;
-            layers = <4 21 5 22>;
+            layers = <4 20 5 21>;
         };
 
         L1_less {
             bindings = <&kp LESS_THAN>;
             key-positions = <7 16>;
-            layers = <4 21 5 22>;
+            layers = <4 20 5 21>;
         };
 
         L1_greater {
             bindings = <&kp GREATER_THAN>;
             key-positions = <7 18>;
-            layers = <4 21 5 22>;
+            layers = <4 20 5 21>;
         };
 
         L2_greater {
@@ -530,8 +530,8 @@
             tap-ms = <0>;
             bindings =
                 <&macro_press>,
-                <&macro_param_1to2 &bt BT_SEL 0>,
-                <&macro_param_2to1 &to 0>;
+                <&macro_param_2to1 &to 0>,
+                <&macro_param_1to2 &bt BT_SEL 0>;
         };
 
         // Clear ordinary layers in descending order. Conditional overlays follow those layers.
@@ -543,9 +543,9 @@
             tap-ms = <0>;
             bindings =
                 <&macro_press>,
-                <&layer_off 21 &layer_off 20 &layer_off 19 &layer_off 17>,
-                <&layer_off 16 &layer_off 15 &layer_off 13 &layer_off 12>,
-                <&layer_off 10 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
+                <&layer_off 22 &layer_off 20 &layer_off 19 &layer_off 18>,
+                <&layer_off 16 &layer_off 15 &layer_off 14 &layer_off 12>,
+                <&layer_off 11 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
                 <&macro_param_1to1 &layer_on 0>;
         };
 
@@ -564,10 +564,10 @@
                 <&macro_release>,
                 <&mkp MB1>,
                 <&macro_press>,
-                <&layer_off 21 &layer_off 20 &layer_off 19 &layer_off 17>,
-                <&layer_off 16 &layer_off 15 &layer_off 13 &layer_off 12>,
-                <&layer_off 10 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
-                <&macro_tap &sl_mouse 20>;
+                <&layer_off 22 &layer_off 20 &layer_off 19 &layer_off 18>,
+                <&layer_off 16 &layer_off 15 &layer_off 14 &layer_off 12>,
+                <&layer_off 11 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
+                <&macro_tap &sl_mouse 19>;
         };
 
         nn: nn {
@@ -661,14 +661,14 @@
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings =
-                <&layer_off 9>,
+                <&layer_off 8>,
                 <&macro_press>,
-                <&mo 16>,
+                <&mo 15>,
                 <&macro_pause_for_release>,
                 <&macro_release>,
-                <&mo 16>,
+                <&mo 15>,
                 <&macro_tap>,
-                <&layer_off 9>;
+                <&layer_off 8>;
 
             label = "MOUSE_EXIT_MO9";
             wait-ms = <0>;
@@ -724,10 +724,10 @@
             #binding-cells = <0>;
             bindings =
                 <&macro_press>,
-                <&mo 13>,
+                <&mo 12>,
                 <&macro_pause_for_release>,
                 <&macro_release>,
-                <&kp LEFT_GUI &mo 13>;
+                <&kp LEFT_GUI &mo 12>;
 
             label = "NUMBER7_HOLD";
             wait-ms = <0>;
@@ -739,9 +739,9 @@
             #binding-cells = <0>;
             bindings =
                 <&macro_press>,
-                <&layer_off 21 &layer_off 20 &layer_off 19 &layer_off 17>,
-                <&layer_off 16 &layer_off 15 &layer_off 13 &layer_off 12>,
-                <&layer_off 10 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
+                <&layer_off 22 &layer_off 20 &layer_off 19 &layer_off 18>,
+                <&layer_off 16 &layer_off 15 &layer_off 14 &layer_off 12>,
+                <&layer_off 11 &layer_off 9 &layer_off 8 &layer_off 6 &layer_off 4>,
                 <&layer_on 6>,
                 <&macro_tap &kp F19>;
             label = "TO2_YOUTUBE";
@@ -779,33 +779,33 @@
         };
 
         mac_apple_browser {
-            if-layers = <1 17>;
-            then-layer = <18>;
+            if-layers = <1 16>;
+            then-layer = <17>;
         };
 
         ipad_apple_browser {
-            if-layers = <2 17>;
-            then-layer = <18>;
+            if-layers = <2 16>;
+            then-layer = <17>;
         };
 
         mac_apple_fx_number {
-            if-layers = <1 21>;
-            then-layer = <22>;
+            if-layers = <1 20>;
+            then-layer = <21>;
         };
 
         ipad_apple_fx_number {
-            if-layers = <2 21>;
-            then-layer = <22>;
+            if-layers = <2 20>;
+            then-layer = <21>;
         };
 
         ipad_seoto {
-            if-layers = <2 10>;
-            then-layer = <11>;
+            if-layers = <2 9>;
+            then-layer = <10>;
         };
 
         mac_number {
-            if-layers = <1 13>;
-            then-layer = <14>;
+            if-layers = <1 12>;
+            then-layer = <13>;
         };
     };
 
@@ -815,10 +815,10 @@
         default_layer {
             display-name = "BASE";
             bindings = <
-&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                        &kp RIGHT    &kp Q      &kp O          &W_lt 17 W  &kp X
-&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                           &kp L        &kp A      &kp I          &kp U       &lt 15 E
+&D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                        &kp RIGHT    &kp Q      &kp O          &W_lt 16 W  &kp X
+&kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                           &kp L        &kp A      &kp I          &kp U       &lt 14 E
 &mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C      &K_ctrl_v                                           &kp Y        &kp COMMA  &kp J          &kp DOT     &mt RIGHT_SHIFT V
-&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 10 SPACE   &number7_lt 0 TAB    &lt 12 BACKSPACE  &lt 4 ENTER             &kp RIGHT_ALT  &kp F18     &lt 19 ESC
+&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 9 SPACE   &number7_lt 0 TAB    &lt 11 BACKSPACE  &lt 4 ENTER             &kp RIGHT_ALT  &kp F18     &lt 18 ESC
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
@@ -830,7 +830,7 @@
                 &trans  &apple_close   &trans        &apple_refresh  &apple_new_tab    &trans  &trans  &trans  &trans  &trans
                 &trans  &apple_all     &apple_save   &trans          &apple_find       &trans  &trans  &trans  &trans  &trans
                 &trans  &apple_undo    &apple_cut    &trans          &apple_paste      &trans  &trans  &trans  &trans  &trans
-                &kp LGUI &kp LCTRL     &trans        &trans          &trans  &lt 13 TAB  &trans  &trans  &trans  &kp LS(LC(D))  &trans
+                &kp LGUI &kp LCTRL     &trans        &trans          &trans  &lt 12 TAB  &trans  &trans  &trans  &kp LS(LC(D))  &trans
             >;
         };
 
@@ -899,22 +899,12 @@
             >;
         };
 
-        reserved_2 {
-            display-name = "RESERVED_2";
-            bindings = <
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
-&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
-            >;
-        };
-
         mouse {
             display-name = "MOUSE";
             bindings = <
 &trans  &trans  &trans  &trans  &trans                             &none   &none            &click_and_exit  &mkp MB2  &mouse_exit_mo9
-&trans  &trans  &trans  &trans  &trans                             &none   &click_and_exit  &click_and_exit  &mkp MB2  &mo 15
-&trans  &trans  &trans  &trans  &trans                             &none   &kp F20          &mkp MB4         &mkp MB5  &tog 9
+&trans  &trans  &trans  &trans  &trans                             &none   &click_and_exit  &click_and_exit  &mkp MB2  &mo 14
+&trans  &trans  &trans  &trans  &trans                             &none   &kp F20          &mkp MB4         &mkp MB5  &tog 8
 &trans  &trans  &trans  &trans  &mouse_exit_mo9  &trans    &trans  &trans                   &trans           &trans    &trans
             >;
         };
@@ -957,7 +947,7 @@
 &trans    &kp LC(LG(LEFT_ARROW))  &win_arrow_up    &kp LC(LG(RIGHT_ARROW))  &trans                    &kp KP_SLASH     &kp NUMBER_7  &kp NUMBER_8  &kp NUMBER_9  &kp KP_MINUS
 &trans    &win_arrow_left         &win_arrow_down  &win_arrow_right         &trans                    &kp KP_MULTIPLY  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp KP_PLUS
 &kp HOME  &kp PAGE_DOWN           &kp END          &kp PAGE_UP              &trans                    &kp UNDER        &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp ENTER
-&trans    &trans                  &trans           &trans                   &trans  &trans    &trans  &lt 21 NUMBER_0                &kp NUMBER_0  &kp DOT       &kp EQUAL
+&trans    &trans                  &trans           &trans                   &trans  &trans    &trans  &lt 20 NUMBER_0                &kp NUMBER_0  &kp DOT       &kp EQUAL
             >;
 
             sensor-bindings = <&inc_dec_kp DOWN_ARROW UP_ARROW>;
@@ -1019,7 +1009,7 @@
             bindings = <
 &select_profile 0 0    &select_profile 1 1  &select_profile 2 0  &select_profile 3 0  &select_profile 4 2                              &select_profile 0 0    &select_profile 1 1  &select_profile 2 0  &select_profile 3 0   &select_profile 4 2
 &trans          &trans        &trans        &out OUT_BLE  &out OUT_USB                              &trans          &trans        &trans        &bt BT_DISC 4  &sleep
-&bt BT_CLR      &trans        &trans        &trans        &trans                                    &trans          &trans        &trans        &trans         &go_action_layer 13
+&bt BT_CLR      &trans        &trans        &trans        &trans                                    &trans          &trans        &trans        &trans         &go_action_layer 12
 &bt BT_CLR_ALL  &trans        &trans        &trans        &trans        &bootloader    &bootloader  &studio_unlock                &trans        &trans         &trans
             >;
 
@@ -1055,6 +1045,16 @@
                 &kp LS(LG(N4))     &trans  &trans  &trans  &trans     &kp LG(W)  &trans  &trans  &trans  &trans
                 &kp LS(LG(N3))     &trans  &trans  &trans  &trans     &trans  &trans  &trans  &trans  &trans
                 &trans             &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            >;
+        };
+
+        reserved_2 {
+            display-name = "RESERVED_2";
+            bindings = <
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans                    &trans  &trans  &trans  &trans  &trans
+&trans  &trans  &trans  &trans  &trans  &trans    &trans  &trans          &trans  &trans  &trans
             >;
         };
     };
