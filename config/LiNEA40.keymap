@@ -511,10 +511,10 @@
             keep-mods = <(MOD_LGUI)>;
         };
 
-        number7_lt: number7_lt {
+        number12_lt: number12_lt {
             compatible = "zmk,behavior-hold-tap";
-            label = "NUMBER7_LT";
-            bindings = <&number7_hold>, <&kp>;
+            label = "NUMBER12_LT";
+            bindings = <&number12_hold>, <&kp>;
 
             #binding-cells = <2>;
             tapping-term-ms = <200>;
@@ -719,7 +719,7 @@
             tap-ms = <30>;
         };
 
-        number7_hold: number7_hold {
+        number12_hold: number12_hold {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             bindings =
@@ -729,7 +729,7 @@
                 <&macro_release>,
                 <&kp LEFT_GUI &mo 12>;
 
-            label = "NUMBER7_HOLD";
+            label = "NUMBER12_HOLD";
             wait-ms = <0>;
             tap-ms = <0>;
         };
@@ -818,7 +818,7 @@
 &D_alt_p_tab      &Z_ctrl_w     &kp H         &F_ctrl_r  &Left_ctrl_t                                        &kp RIGHT    &kp Q      &kp O          &W_lt 16 W  &kp X
 &kp D             &S_ctrl_a     &N_ctrl_s     &kp T      &G_ctrl_f                                           &kp L        &kp A      &kp I          &kp U       &lt 14 E
 &mt LEFT_SHIFT B  &R_ctrl_z     &M_ctrl_x     &kp C      &K_ctrl_v                                           &kp Y        &kp COMMA  &kp J          &kp DOT     &mt RIGHT_SHIFT V
-&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 9 SPACE   &number7_lt 0 TAB    &lt 11 BACKSPACE  &lt 4 ENTER             &kp RIGHT_ALT  &kp F18     &lt 18 ESC
+&kp LCTRL         &kp LEFT_WIN  &kp LEFT_ALT  &none      &lt 9 SPACE   &number12_lt 0 TAB    &lt 11 BACKSPACE  &lt 4 ENTER             &kp RIGHT_ALT  &kp F18     &lt 18 ESC
             >;
 
             sensor-bindings = <&mouse_scrl SCRL_DOWN SCRL_UP>;
