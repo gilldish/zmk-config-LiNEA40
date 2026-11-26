@@ -734,6 +734,15 @@
             tap-ms = <0>;
         };
 
+        youtube_space: youtube_space {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&kp F19 &kp SPACE>;
+            label = "YOUTUBE_SPACE";
+            wait-ms = <250>;
+            tap-ms = <40>;
+        };
+
         to2_youtube: to2_youtube {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
@@ -859,7 +868,7 @@
             bindings = <
 &trans               &kp F7  &kp F8  &kp F9  &kp F12                    &mkp MB4   &kp HOME        &kp UP_ARROW    &kp END          &kp PAGE_UP
 &kp LS(LG(S))        &kp F4  &kp F5  &kp F6  &kp F11                    &kp LC(W)  &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &kp PAGE_DOWN
-&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &kp SPACE  &kp F           &none           &kp F19          &trans
+&kp LA(PRINTSCREEN)  &kp F1  &kp F2  &kp F3  &kp F10                    &youtube_space  &kp F           &none           &kp F19          &trans
 &trans               &trans  &trans  &trans  &trans   &trans    &trans  &trans                     &trans          &trans           &trans
             >;
 
